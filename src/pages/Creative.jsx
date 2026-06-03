@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import UnifiedContact from '../components/UnifiedContact';
 import { motion, AnimatePresence } from 'framer-motion';
+// 🔌 Secure connection to your Supabase hub
+import { supabase } from '../supabaseClient';
 
 export default function Creative({ onBack }) {
   // 🗂️ Category State Management
@@ -23,7 +25,7 @@ export default function Creative({ onBack }) {
       title: 'Phone Overheat Issue', 
       desc: 'Reasons for phone overheating , short form edit', 
       duration: '0:30',
-      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490578/phoneHeat_compressed_rkzozs.mp4',
+      videoUrl: '/videos/phoneHeat.mp4',
       retention: '75%',
       software: 'Premiere Pro',
       client: 'Influencer Tech Channel'
@@ -34,7 +36,7 @@ export default function Creative({ onBack }) {
       title: 'Legacy Funded Futures', 
       desc: 'about the legacy funded futures project, short form edit', 
       duration: '0:22',
-      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490549/legacy_funded_futures_tpj8lf.mp4',
+      videoUrl: '/videos/legacy funded futures.mp4',
       retention: '30%',
       software: 'Capcut Pc',
       client: 'Influencer Finance Channel'
@@ -45,7 +47,7 @@ export default function Creative({ onBack }) {
       title: 'Edmund Burke', 
       desc: 'His thoughts about the French Revolution, short form edit', 
       duration: '0:18',
-      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490544/Edmund_Burke_compressed_nj9nwh.mp4',
+      videoUrl: '/videos/Edmund Burke.mp4',
       retention: '33%',
       software: 'CapCut Pc',
       client: 'US Content Agency'
@@ -56,7 +58,7 @@ export default function Creative({ onBack }) {
       title: '1031 EXCHANGE', 
       desc: 'About 1031 exchange, long form edit', 
       duration: '0:39',
-      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490582/1031_EXCHANGE_nsiuao.mp4',
+      videoUrl: '/videos/1031 EXCHANGE.mp4',
       retention: '38%',
       software: 'Premiere Pro',
       client: 'Independent Submission'
@@ -67,7 +69,7 @@ export default function Creative({ onBack }) {
       title: 'Crime Story Hindi', 
       desc: 'jennette de palma, long form edit', 
       duration: '3:28',
-      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490578/jennette_de_palma_sample_compressed_slb2y2.mp4',
+      videoUrl: '/videos/jennette de palma sample.mp4',
       retention: '55%',
       software: 'Premiere Pro',
       client: 'Documentary Project'
@@ -78,7 +80,7 @@ export default function Creative({ onBack }) {
       title: 'Pahalgram Attack', 
       desc: 'Pahalgram attack in kashmir, long form edit', 
       duration: '0:37',
-      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490458/Pahalgram_Attack_compresses_svdg5d.mp4',
+      videoUrl: '/videos/Pahalgram Attack.mp4',
       retention: '42%',
       software: 'Capcut Pc',
       client: 'Influencer History Channel'
@@ -95,19 +97,41 @@ export default function Creative({ onBack }) {
 
   const currentProjectKey = getProjectStorageKey(activeProject);
 
-  // 📦 Global public bin credentials
-  const BIN_URL = 'https://api.jsonbin.io/v3/b/665eb80ee41b4d34e4fd28ba'; 
-  const MASTER_KEY = '$2a$10$WkGfXOmk6M2vjQ7.8X9NleJ.kFj6k9Nlz7PqfeGq9oXhOmXmGieyG';
+  // ==========================================
+  // 💾 SUPABASE CENTRAL STORAGE HUB PIPELINE
+  // ==========================================
 
-  // 📥 Fetch stream from the live global cloud bin
+  // 📥 Fetch stream from the live global database
   const fetchGlobalComments = async () => {
+    setLoadingComments(true);
     try {
-      const res = await fetch(`${BIN_URL}/latest`, {
-        headers: { 'X-Master-Key': MASTER_KEY }
-      });
-      const data = await res.json();
-      if (data.record) {
-        setReviews(data.record);
+      const { data, error } = await supabase
+        .from('comments')
+        .select('*')
+        .eq('project_id', currentProjectKey)
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        // Construct the data array matching your layout structure
+        const formattedReviews = [];
+        for (let i = 0; i < data.length; i++) {
+          formattedReviews.push({
+            name: data[i].user_name,
+            comment: data[i].text,
+            timestamp: new Date(data[i].created_at).toLocaleDateString('en-US', { 
+              month: 'short', 
+              day: 'numeric' 
+            })
+          });
+        }
+
+        // Map the structured comments to the active project state key
+        setReviews((prevReviews) => {
+          return {
+            ...prevReviews,
+            [currentProjectKey]: formattedReviews
+          };
+        });
       }
     } catch (err) {
       console.log('Error establishing global cloud handle:', err);
@@ -116,39 +140,33 @@ export default function Creative({ onBack }) {
     }
   };
 
+  // Re-run connection pipeline automatically when switching tracks
   useEffect(() => {
     fetchGlobalComments();
-  }, []);
+  }, [currentProjectKey]);
 
-  // 🚀 Post a comment globally
+  // 🚀 Post a comment globally to the cloud database
   const handleAddReview = async (e) => {
     e.preventDefault();
     if (!reviewerName.trim() || !reviewerComment.trim()) return;
 
-    const newReview = {
-      name: reviewerName,
-      comment: reviewerComment,
-      timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    const databasePayload = {
+      project_id: currentProjectKey,
+      user_name: reviewerName.trim(),
+      text: reviewerComment.trim()
     };
-
-    const updatedReviews = {
-      ...reviews,
-      [currentProjectKey]: [newReview, ...(reviews[currentProjectKey] || [])]
-    };
-    
-    setReviews(updatedReviews);
-    setReviewerName('');
-    setReviewerComment('');
 
     try {
-      await fetch(BIN_URL, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': MASTER_KEY
-        },
-        body: JSON.stringify(updatedReviews)
-      });
+      const { error } = await supabase
+        .from('comments')
+        .insert([databasePayload]);
+
+      if (!error) {
+        setReviewerName('');
+        setReviewerComment('');
+        // Sync the display matrix instantly for all current viewers
+        fetchGlobalComments();
+      }
     } catch (err) {
       console.error('Cloud synchronization error:', err);
     }
