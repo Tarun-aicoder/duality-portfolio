@@ -142,15 +142,40 @@ export default function Creative({ onBack }) {
     fetchGlobalComments();
   }, [currentProjectKey]);
 
-  // 🚀 Post a comment globally to the cloud database
+  // 🚀 Post a comment globally with an Optimistic UI Instant Injection
   const handleAddReview = async (e) => {
     e.preventDefault();
     if (!reviewerName.trim() || !reviewerComment.trim()) return;
 
+    const savedName = reviewerName.trim();
+    const savedComment = reviewerComment.trim();
+
+    // 1️⃣ OPTIMISTIC FRONTEND DISPLAY: Push to the visual array instantly
+    const optimisticReview = {
+      name: savedName,
+      comment: savedComment,
+      timestamp: new Date().toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      })
+    };
+
+    setReviews((prevReviews) => {
+      return {
+        ...prevReviews,
+        [currentProjectKey]: [optimisticReview, ...(prevReviews[currentProjectKey] || [])]
+      };
+    });
+
+    // Instantly wipe the text fields so the browser feels lightning fast
+    setReviewerName('');
+    setReviewerComment('');
+
+    // 2️⃣ BACKGROUND SILENT CLOUD SYNC
     const databasePayload = {
       project_id: currentProjectKey,
-      user_name: reviewerName.trim(),
-      text: reviewerComment.trim()
+      user_name: savedName,
+      text: savedComment
     };
 
     try {
@@ -158,10 +183,8 @@ export default function Creative({ onBack }) {
         .from('comments')
         .insert([databasePayload]);
 
-      if (!error) {
-        setReviewerName('');
-        setReviewerComment('');
-        fetchGlobalComments();
+      if (error) {
+        console.error('Database connection sync failed:', error.message);
       }
     } catch (err) {
       console.error('Cloud synchronization error:', err);
@@ -301,7 +324,6 @@ export default function Creative({ onBack }) {
                 Project Review Board
               </h4>
               <p className="text-xs text-zinc-500 mb-6">Drop your feedback or structural notes on this production cut.</p>
-
 
               {/* Public Form */}
               <form onSubmit={handleAddReview} className="flex flex-col gap-4 mb-8">
