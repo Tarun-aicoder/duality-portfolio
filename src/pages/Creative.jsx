@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UnifiedContact from '../components/UnifiedContact';
 import { motion, AnimatePresence } from 'framer-motion';
-// 🔌 Secure connection to your Supabase hub
+// 🔌 Connecting to your client file
 import { supabase } from '../supabaseClient';
 
 export default function Creative({ onBack }) {
@@ -112,7 +112,6 @@ export default function Creative({ onBack }) {
         .order('created_at', { ascending: false });
 
       if (!error && data) {
-        // Construct the data array matching your layout structure
         const formattedReviews = [];
         for (let i = 0; i < data.length; i++) {
           formattedReviews.push({
@@ -125,7 +124,6 @@ export default function Creative({ onBack }) {
           });
         }
 
-        // Map the structured comments to the active project state key
         setReviews((prevReviews) => {
           return {
             ...prevReviews,
@@ -140,7 +138,6 @@ export default function Creative({ onBack }) {
     }
   };
 
-  // Re-run connection pipeline automatically when switching tracks
   useEffect(() => {
     fetchGlobalComments();
   }, [currentProjectKey]);
@@ -164,7 +161,6 @@ export default function Creative({ onBack }) {
       if (!error) {
         setReviewerName('');
         setReviewerComment('');
-        // Sync the display matrix instantly for all current viewers
         fetchGlobalComments();
       }
     } catch (err) {
