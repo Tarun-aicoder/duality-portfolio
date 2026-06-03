@@ -25,7 +25,7 @@ export default function Creative({ onBack }) {
       title: 'Phone Overheat Issue', 
       desc: 'Reasons for phone overheating , short form edit', 
       duration: '0:30',
-      videoUrl: '/videos/phoneHeat.mp4',
+      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490578/phoneHeat_compressed_rkzozs.mp4',
       retention: '75%',
       software: 'Premiere Pro',
       client: 'Influencer Tech Channel'
@@ -36,7 +36,8 @@ export default function Creative({ onBack }) {
       title: 'Legacy Funded Futures', 
       desc: 'about the legacy funded futures project, short form edit', 
       duration: '0:22',
-      videoUrl: '/videos/legacy funded futures.mp4',
+      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490549/legacy_funded_futures_tpj8lf.mp4
+',
       retention: '30%',
       software: 'Capcut Pc',
       client: 'Influencer Finance Channel'
@@ -47,7 +48,8 @@ export default function Creative({ onBack }) {
       title: 'Edmund Burke', 
       desc: 'His thoughts about the French Revolution, short form edit', 
       duration: '0:18',
-      videoUrl: '/videos/Edmund Burke.mp4',
+      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490544/Edmund_Burke_compressed_nj9nwh.mp4
+',
       retention: '33%',
       software: 'CapCut Pc',
       client: 'US Content Agency'
@@ -58,7 +60,8 @@ export default function Creative({ onBack }) {
       title: '1031 EXCHANGE', 
       desc: 'About 1031 exchange, long form edit', 
       duration: '0:39',
-      videoUrl: '/videos/1031 EXCHANGE.mp4',
+      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490582/1031_EXCHANGE_nsiuao.mp4
+',
       retention: '38%',
       software: 'Premiere Pro',
       client: 'Independent Submission'
@@ -69,7 +72,8 @@ export default function Creative({ onBack }) {
       title: 'Crime Story Hindi', 
       desc: 'jennette de palma, long form edit', 
       duration: '3:28',
-      videoUrl: '/videos/jennette de palma sample.mp4',
+      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490578/jennette_de_palma_sample_compressed_slb2y2.mp4
+',
       retention: '55%',
       software: 'Premiere Pro',
       client: 'Documentary Project'
@@ -80,7 +84,7 @@ export default function Creative({ onBack }) {
       title: 'Pahalgram Attack', 
       desc: 'Pahalgram attack in kashmir, long form edit', 
       duration: '0:37',
-      videoUrl: '/videos/Pahalgram Attack.mp4',
+      videoUrl: 'https://res.cloudinary.com/dm9acfgjp/video/upload/v1780490458/Pahalgram_Attack_compresses_svdg5d.mp4',
       retention: '42%',
       software: 'Capcut Pc',
       client: 'Influencer History Channel'
