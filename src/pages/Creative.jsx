@@ -302,6 +302,7 @@ export default function Creative({ onBack }) {
               </h4>
               <p className="text-xs text-zinc-500 mb-6">Drop your feedback or structural notes on this production cut.</p>
 
+
               {/* Public Form */}
               <form onSubmit={handleAddReview} className="flex flex-col gap-4 mb-8">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -320,7 +321,7 @@ export default function Creative({ onBack }) {
                     className="sm:col-span-2 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-creative-orange/40 font-inter"
                   />
                 </div>
-                <button type="submit" className="self-end bg-white text-black hover:bg-creative-peach transition-colors font-bold text-[10px] uppercase tracking-widest px-5 py-2.5 rounded-lg">
+                <button type="submit" className="self-end bg-white text-black hover:bg-creative-peach transition-colors font-bold text-[10px] uppercase tracking-widest px-5 py-2.5 rounded-lg cursor-pointer">
                   Post Review
                 </button>
               </form>
