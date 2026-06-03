@@ -10,7 +10,7 @@ export default function Admin({ onBack }) {
   const [allComments, setAllComments] = useState([]);
 
   // 🔒 Change this to whatever secret PIN you want!
-  const SECRET_PASSKEY = "admin2026"; 
+  const SECRET_PASSKEY = "CrazyBot0002"; 
 
   // ==========================================
   // 🔑 SECURITY GATEWAY
