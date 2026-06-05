@@ -150,7 +150,7 @@ export default function Creative({ onBack }) {
     const savedName = reviewerName.trim();
     const savedComment = reviewerComment.trim();
 
-    // 1️⃣ OPTIMISTIC FRONTEND DISPLAY: Push to the visual array instantly
+    // 1️⃣ OPTIMISTIC FRONTEND DISPLAY
     const optimisticReview = {
       name: savedName,
       comment: savedComment,
@@ -167,7 +167,6 @@ export default function Creative({ onBack }) {
       };
     });
 
-    // Instantly wipe the text fields so the browser feels lightning fast
     setReviewerName('');
     setReviewerComment('');
 
@@ -190,6 +189,35 @@ export default function Creative({ onBack }) {
       console.error('Cloud synchronization error:', err);
     }
   };
+
+  // ==========================================
+  // 🎨 GRAPHIC DESIGN STATIC DATA & LOOP BUILDER
+  // ==========================================
+  
+  const graphicData = [
+    { id: 'g1', title: 'Thumbnail Design 1', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662162/sample_thumbnail_wb7ja7.png' },
+    { id: 'g2', title: 'Thumbnail Design 2', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662152/maxresdefault_svc6x0.webp' },
+    { id: 'g3', title: 'Thumbnail Design 3', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662160/Battle_Rounds_Live_Stream_Event_f98jas.png' },
+    { id: 'g4', title: 'Thumbnail Design 4', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662216/aa8c4bf8-f0e6-466c-bfd3-b0cfff7baae0_g7lgjs.png' }
+  ];
+
+  // Using a manual loop to build our graphic components cleanly
+  let graphicCards = [];
+  for (let i = 0; i < graphicData.length; i++) {
+    let item = graphicData[i];
+    graphicCards[i] = (
+      <div key={item.id} className="group relative border border-white/10 rounded-xl overflow-hidden bg-zinc-900 hover:border-creative-orange transition-all duration-300 aspect-video shadow-lg hover:shadow-creative-orange/20 cursor-pointer">
+        <img 
+          src={item.url} 
+          alt={item.title} 
+          className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" 
+        />
+        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent translate-y-2 group-hover:translate-y-0 transition-transform">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider font-clash">{item.title}</h3>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full bg-creative-dark text-white overflow-x-hidden selection:bg-creative-orange selection:text-black">
@@ -224,9 +252,9 @@ export default function Creative({ onBack }) {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="absolute inset-0 bg-[#0c0c0e]">
-              <img src="/creative-face.png" alt="Tarun Kumar Portrait" className="w-full h-full object-cover object-center" />
+              <img src="/creative-face.png" alt="Portrait" className="w-full h-full object-cover object-center" />
             </div>
-            <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none" />
           </motion.div>
 
           <div className="absolute -bottom-15 sm:-bottom-7.5 text-center z-20 pointer-events-none">
@@ -242,7 +270,7 @@ export default function Creative({ onBack }) {
         </footer>
       </section>
 
-      {/* 🎰 PRODUCTION WORKSPACE SHOWCASE */}
+      {/* 🎰 PRODUCTION WORKSPACE SHOWCASE (VIDEOS) */}
       <section className="relative min-h-screen w-full px-6 py-24 sm:p-24 flex flex-col z-10 bg-[#09090b]">
         
         {/* 📑 COMPACT TAB FILTER BAR */}
@@ -275,7 +303,7 @@ export default function Creative({ onBack }) {
             {/* 📱 DYNAMIC PLAYER FRAME */}
             <div className={`bg-zinc-950 border border-white/10 relative overflow-hidden group shadow-2xl transition-all duration-500 ease-out rounded-2xl ${
               activeProject.category === 'SHORT FORM'
-                ? 'aspect-9/16 max-w-77.5 mx-auto w-full'
+                ? 'aspect-[9/16] max-w-sm mx-auto w-full'
                 : 'aspect-video w-full'
             }`}>
               <AnimatePresence mode="wait">
@@ -416,6 +444,22 @@ export default function Creative({ onBack }) {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* 🎨 NEW GRAPHIC DESIGN SHOWCASE */}
+      <section className="relative w-full px-6 py-20 sm:py-24 sm:px-24 bg-[#0c0c0e] border-t border-white/5 z-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-6 mb-12">
+            <h2 className="text-2xl sm:text-3xl font-clash font-bold uppercase tracking-wide text-white">
+              Graphic <span className="text-creative-orange">Design</span>
+            </h2>
+            <div className="h-px bg-white/10 flex-1"></div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {graphicCards}
+          </div>
         </div>
       </section>
       
