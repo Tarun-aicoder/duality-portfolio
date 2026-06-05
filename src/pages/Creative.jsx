@@ -195,10 +195,10 @@ export default function Creative({ onBack }) {
   // ==========================================
   
   const graphicData = [
-    { id: 'g1', title: 'Thumbnail Design 1', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662162/sample_thumbnail_wb7ja7.png' },
-    { id: 'g2', title: 'Thumbnail Design 2', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662152/maxresdefault_svc6x0.webp' },
-    { id: 'g3', title: 'Thumbnail Design 3', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662160/Battle_Rounds_Live_Stream_Event_f98jas.png' },
-    { id: 'g4', title: 'Thumbnail Design 4', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662216/aa8c4bf8-f0e6-466c-bfd3-b0cfff7baae0_g7lgjs.png' }
+    { id: 'g1', title: 'SURVIVE A BLACKOUT', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662162/sample_thumbnail_wb7ja7.png' },
+    { id: 'g2', title: 'TRADING PSYCHOLOGY', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662152/maxresdefault_svc6x0.webp' },
+    { id: 'g3', title: 'BGMI STREAM', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662160/Battle_Rounds_Live_Stream_Event_f98jas.png' },
+    { id: 'g4', title: 'BGMI STREAM', url: 'https://res.cloudinary.com/dm9acfgjp/image/upload/v1780662216/aa8c4bf8-f0e6-466c-bfd3-b0cfff7baae0_g7lgjs.png' }
   ];
 
   // Using a manual loop to build our graphic components cleanly
